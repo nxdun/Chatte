@@ -102,6 +102,8 @@ public class ChatServer {
          * the client in a global set, then repeatedly gets inputs and
          * broadcasts them.
          */
+        
+        
         public void run() {
             try {
 
@@ -134,6 +136,7 @@ public class ChatServer {
                 // this client can receive broadcast messages.
                 out.println("NAMEACCEPTED");  //sent to other class
                 writers.add(out);
+                broadcastLoggedInClients();
                 
                 // TODO: You may have to add some code here to broadcast all clients the new
                 // client's name for the task 9 on the lab sheet. 
@@ -193,7 +196,20 @@ public class ChatServer {
                     socket.close();
                 } catch (IOException e) {
                 }
+                broadcastLoggedInClients();
             }
+            
         }
-    }
+     // Broadcast the list of logged-in clients to all clients
+        private synchronized void broadcastLoggedInClients() {
+            StringBuilder clientListMessage = new StringBuilder();
+            clientListMessage.append("CLIENTLIST ");
+            for (String client : names) {
+                clientListMessage.append(client).append(",");
+            }
+            for (PrintWriter writer : writers) {
+                writer.println(clientListMessage);
+            }
+        }
+    }
 }

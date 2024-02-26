@@ -134,12 +134,10 @@ public class ChatClient {
                 messageArea.append(line.substring(8) + "\n");
             } else if (line.startsWith("PRIVATEMESSAGE")) {
             	
-            	
-            	
-            	
+           
             	//split string to subparts and takes sender reciver individually
             	//line = "PRIVATEMESSAGE <sender> <reciver> !!<message>"
-            	String[] parts = line.split(" ");
+            	String[] parts = line.split(" "); 
             	String mSender = parts[1].trim();
             	String mReceiver = parts[2].trim();
                 String recivedMessage = line.split("!!")[1];
@@ -151,7 +149,7 @@ public class ChatClient {
                 messageArea.append("(private) FROM:" +mSender+ " TO:"+mReceiver+ "   : "+ recivedMessage + "\n");
                 
             	}
-            }
+            }else if (line.startsWith("PRIVATEMESSAGE")) {}
         }
     }
 
