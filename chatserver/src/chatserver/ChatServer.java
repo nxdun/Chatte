@@ -33,7 +33,7 @@ public class ChatServer {
     /**
      * The port that the server listens on.
      */
-    private static final int PORT = 9001;
+    private static final int PORT = 9002;
 
     /**
      * The set of all names of clients in the chat room.  Maintained
@@ -210,6 +210,6 @@ public class ChatServer {
             for (PrintWriter writer : writers) {
                 writer.println(clientListMessage);
             }
-        }
-    }
+        }
+    }
 }
