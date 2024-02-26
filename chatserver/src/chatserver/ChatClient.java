@@ -32,6 +32,8 @@ import javax.swing.JTextField;
  * this string should be displayed in its message area.
  */
 public class ChatClient {
+	
+	static String Cname;
 
     BufferedReader in;
     PrintWriter out;
@@ -90,11 +92,13 @@ public class ChatClient {
      * Prompt for and return the desired screen name.
      */
     private String getName() {
-        return JOptionPane.showInputDialog(
+    	//takes name to a variable
+          Cname =  JOptionPane.showInputDialog(
             frame,
             "Choose a screen name:",
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
+         return Cname;
     }
 
     /**
@@ -105,8 +109,10 @@ public class ChatClient {
         // Make connection and initialize streams
         String serverAddress = getServerAddress();
         Socket socket = new Socket(serverAddress, 9001);
+        //recived from server
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
+        //send to server
         out = new PrintWriter(socket.getOutputStream(), true);
 
         // Process all messages from server, according to the protocol.
@@ -120,6 +126,21 @@ public class ChatClient {
                 textField.setEditable(true);
             } else if (line.startsWith("MESSAGE")) {
                 messageArea.append(line.substring(8) + "\n");
+            } else if (line.startsWith("PRIVATEMESSAGE")) {
+            	//split string to subparts and takes sender reciver individually
+            	//line = "PRIVATEMESSAGE <sender> <reciver> !!<message>"
+            	String[] parts = line.split(" ");
+            	String mSender = parts[1].trim();
+            	String mReceiver = parts[2].trim();
+                String recivedMessage = line.split("!!")[1];
+                
+                //display logice for private message
+                //sender and reciver can only see pm
+            	if(Cname.equals(mSender)|| Cname.equals(mReceiver)) {
+            		
+                messageArea.append("(private) FROM:" +mSender+ " TO:"+mReceiver+ "   : "+ recivedMessage + "\n");
+                
+            	}
             }
         }
     }

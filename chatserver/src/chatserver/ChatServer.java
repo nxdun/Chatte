@@ -56,7 +56,7 @@ public class ChatServer {
      * set is kept so we can easily broadcast messages.
      */
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
-    private static HashSet<PrintWriter> customlist = new HashSet<PrintWriter>();
+
     
     /**
      * The application main method, which just listens on a port and
@@ -114,14 +114,14 @@ public class ChatServer {
                 // checking for the existence of a name and adding the name
                 // must be done while locking the set of names.
                 while (true) {
-                    out.println("SUBMITNAME");
-                    name = in.readLine();
+                    out.println("SUBMITNAME"); //sending to client
+                    name = in.readLine(); //recived from client
                     if (name == null) {
                         return;
                     }
                     
-                    // TODO: Add code to ensure the thread safety of the
-                    // the shared variable 'names' done!!
+                    // Added code to ensure the thread safety of the
+                    // the shared variable 'names'
                     if (!names.contains(name)) {
                     		addName(name);
                             break;
@@ -132,7 +132,7 @@ public class ChatServer {
                 // Now that a successful name has been chosen, add the
                 // socket's print writer to the set of all writers so
                 // this client can receive broadcast messages.
-                out.println("NAMEACCEPTED");
+                out.println("NAMEACCEPTED");  //sent to other class
                 writers.add(out);
                 
                 // TODO: You may have to add some code here to broadcast all clients the new
@@ -142,28 +142,40 @@ public class ChatServer {
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.
                 while (true) {
+                	
                     String input = in.readLine();
-                    if (input == null) {
-                        return;
-                    }
+                   
                     
-                    for(String n :names) {
-                    	//check >> is there
-                    	if(input.contains(">>")){
-                    		//dividing string value to two seperate variables 
-                    		String reciver = input.split(">>")[0];
-                    		String recmsg = input.split(">>")[1];
-                    		//comparison with names hashset
-                    		
-                    		
-                    	}
+                    if (input.contains(">>")) {
+                        String[] parts = input.split(">>");
+                        String receiver = parts[0].trim();
+                        String message = parts[1].trim();
+
+                        // Iterate through the names to find the receiver
+                        for (String n : names) {
+                            if (n.equals(receiver)) {
+                                // If the receiver is found, iterate through the writers
+                                for (PrintWriter writer : writers) {
+                                    // If the writer matches the sender or receiver, send the message
+                                	// line = "PRIVATEMESSAGE <sender> <reciver> !!<message>"
+                                    if (writer.equals(out) || n.contains(receiver)) {
+                                       writer.println("PRIVATEMESSAGE " + receiver + " " + name +" !!"+ message  );
+                                    }
+                                }
+                                break; // Break the loop if the receiver is found and the message is sent
+                            }
+                        }
+                    } else {
+                        // If the message doesn't contain >>, send it to all clients
+                        for (PrintWriter writer : writers) {
+                            writer.println("MESSAGE " + name + ": (else)"
+                            		+ "" + input);
+                        }
                     	
                     }
                     
                     
-                    for (PrintWriter writer : writers) {
-                        writer.println("MESSAGE " + name + ": " + input);
-                    }
+                    
                 }
             }// TODO: Handle the SocketException here to handle a client closing the socket
             catch (IOException e) {
