@@ -69,9 +69,9 @@ Distributed under the Unlicense License. See [UNLICENSE](https://github.com/) fo
 ## Authors
 
 - **Nadun** - _Soft E. Student_ - [Nadun](https://github.com/nxdun/) 
-- **vishwa** - _Soft E. Student_ - [Nadun](https://github.com//) - _All Work_
+- **vishwa** - _Soft E. Student_ - [vishwa](https://github.com/Vishwa-ud)_
 
 
 ## Acknowledgements
 
-![Contributors](https://img.shields.io/github/contributors/ShaanCoding/ReadME-Generator?color=dark-green)
+![Contributors](https://img.shields.io/github/contributors/)

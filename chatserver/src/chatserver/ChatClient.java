@@ -9,14 +9,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
+import javax.swing.*;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 
 /**
  * A simple Swing-based client for the chat server.  Graphically
@@ -36,11 +32,11 @@ import javax.swing.JTextField;
  */
 public class ChatClient {
 	
-	static String Cname;
+	static String Cname = "Unknown";
 
     BufferedReader in;
     PrintWriter out;
-    JFrame frame = new JFrame("Chatte.X");
+    JFrame frame = new JFrame("Chatte.X(Unregisterd)");
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
     JList<String> clientList;
@@ -75,12 +71,21 @@ public class ChatClient {
              * the contents of the text field to the server.    Then clear
              * the text area in preparation for the next message.
              */
-            public void actionPerformed(ActionEvent e) {
-                out.println(textField.getText());
+        	public void actionPerformed(ActionEvent e) {
+                List<String> selectedClients = clientList.getSelectedValuesList();
+               
+                if (!selectedClients.isEmpty()) {
+                	
+                    for (String client : selectedClients) {
+                    	//sends a message to selected clients
+                        out.println(client + ">>" + textField.getText());
+                    }
+                } else {
+                    out.println(textField.getText());
+                }
                 textField.setText("");
             }
         });
-        
         
     }
 
@@ -115,7 +120,8 @@ public class ChatClient {
 
         // Make connection and initialize streams
         String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9002);
+        //client and server must run on same socket 
+        Socket socket = new Socket(serverAddress, 9004);
         //recived from server
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
@@ -123,11 +129,14 @@ public class ChatClient {
         out = new PrintWriter(socket.getOutputStream(), true);
 
         // Process all messages from server, according to the protocol.
-        
+        //infinite loop
         while (true) {
             String line = in.readLine();
+            
+            //handling events
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
+                frame.setName("Chatte.X  (" + Cname + ")");
             } else if (line.startsWith("NAMEACCEPTED")) {
                 textField.setEditable(true);
             } else if (line.startsWith("MESSAGE")) {
@@ -142,16 +151,34 @@ public class ChatClient {
             	String mReceiver = parts[2].trim();
                 String recivedMessage = line.split("!!")[1];
                 
-                //display logice for private message
+                //display logic for private message
                 //sender and reciver can only see pm
             	if(Cname.equals(mSender)|| Cname.equals(mReceiver)) {
+            	
             		
                 messageArea.append("(private) FROM:" +mSender+ " TO:"+mReceiver+ "   : "+ recivedMessage + "\n");
                 
             	}
-            }else if (line.startsWith("PRIVATEMESSAGE")) {}
+            }
+            else if (line.startsWith("CLIENTLIST")) {
+            	
+            	//takes all data after clientlist^
+                String[] clients = line.substring(11).split(",");
+                //set all recived data
+                updateClientList(clients);
+            }
         }
     }
+        
+    	//method to set all clients
+        private void updateClientList(String[] clientNames) {
+            SwingUtilities.invokeLater(() -> {
+                clientListModel.clear();
+                for (String clientName : clientNames) {
+                    clientListModel.addElement(clientName);
+                }
+            });
+        }
 
     /**
      * Runs the client as an application with a closeable frame.
