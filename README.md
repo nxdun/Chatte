@@ -68,7 +68,9 @@ Distributed under the Unlicense License. See [UNLICENSE](https://github.com/) fo
 
 ## Authors
 
-- **Nadun** - _Soft E. Student_ - [Nadun](https://github.com/nxdun/) - _All Work_
+- **Nadun** - _Soft E. Student_ - [Nadun](https://github.com/nxdun/) 
+- **vishwa** - _Soft E. Student_ - [Nadun](https://github.com//) - _All Work_
+
 
 ## Acknowledgements
 

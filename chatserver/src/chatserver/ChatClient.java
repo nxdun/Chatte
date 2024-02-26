@@ -133,6 +133,10 @@ public class ChatClient {
             } else if (line.startsWith("MESSAGE")) {
                 messageArea.append(line.substring(8) + "\n");
             } else if (line.startsWith("PRIVATEMESSAGE")) {
+            	
+            	
+            	
+            	
             	//split string to subparts and takes sender reciver individually
             	//line = "PRIVATEMESSAGE <sender> <reciver> !!<message>"
             	String[] parts = line.split(" ");
