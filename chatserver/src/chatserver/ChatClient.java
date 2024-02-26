@@ -12,13 +12,7 @@ import java.net.Socket;
 import java.util.List;
 import javax.swing.*;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 
 /**
  * A simple Swing-based client for the chat server.  Graphically
@@ -47,6 +41,8 @@ public class ChatClient {
     JTextArea messageArea = new JTextArea(8, 40);
     JList<String> clientList;
     DefaultListModel<String> clientListModel;
+    
+    JCheckBox broadcastCheckbox; // Declare checkbox
 
     /**
      * Constructs the client by laying out the GUI and registering a
@@ -67,6 +63,9 @@ public class ChatClient {
         frame.getContentPane().add(textField, "North");
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
         frame.pack();
+        
+        broadcastCheckbox = new JCheckBox("Send To All");
+        frame.getContentPane().add(broadcastCheckbox, BorderLayout.SOUTH);
 
         // TODO: You may have to edit this event handler to handle point to point messaging,
         // where one client can send a message to a specific client. You can add some header to 
@@ -79,12 +78,16 @@ public class ChatClient {
              */
         	public void actionPerformed(ActionEvent e) {
                 List<String> selectedClients = clientList.getSelectedValuesList();
-                if (!selectedClients.isEmpty()) {
-                    for (String client : selectedClients) {
-                        out.println(client + ">>" + textField.getText());
-                    }
+                if (broadcastCheckbox.isSelected()) { // Check if broadcast is enabled
+                    out.println(textField.getText()); // Broadcast message to all clients
                 } else {
-                    out.println(textField.getText());
+                    if (!selectedClients.isEmpty()) {
+                        for (String client : selectedClients) {
+                            out.println(client + ">>" + textField.getText()); // Send message to selected clients
+                        }
+                    } else {
+                        out.println(textField.getText()); // Broadcast if no client selected
+                    }
                 }
                 textField.setText("");
             }
@@ -123,7 +126,8 @@ public class ChatClient {
 
         // Make connection and initialize streams
         String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9004);
+        //client and server must run on same socket 
+        Socket socket = new Socket(serverAddress, 9005);
         //recived from server
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
@@ -131,9 +135,11 @@ public class ChatClient {
         out = new PrintWriter(socket.getOutputStream(), true);
 
         // Process all messages from server, according to the protocol.
-        
+        //infinite loop
         while (true) {
             String line = in.readLine();
+            
+            //handling events
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
@@ -142,17 +148,15 @@ public class ChatClient {
                 messageArea.append(line.substring(8) + "\n");
             } else if (line.startsWith("PRIVATEMESSAGE")) {
             	
-            	
-            	
-            	
+           
             	//split string to subparts and takes sender reciver individually
             	//line = "PRIVATEMESSAGE <sender> <reciver> !!<message>"
-            	String[] parts = line.split(" ");
+            	String[] parts = line.split(" "); 
             	String mSender = parts[1].trim();
             	String mReceiver = parts[2].trim();
                 String recivedMessage = line.split("!!")[1];
                 
-                //display logice for private message
+                //display logic for private message
                 //sender and reciver can only see pm
             	if(Cname.equals(mSender)|| Cname.equals(mReceiver)) {
             		
