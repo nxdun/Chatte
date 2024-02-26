@@ -166,9 +166,9 @@ public class ChatServer {
                             }
                         }
                     } else {
-                        // If the message doesn't contain >>, send it to all clients
+                        // If the message doesn't contain >>, send it to all clients :}
                         for (PrintWriter writer : writers) {
-                            writer.println("MESSAGE " + name + ": (else)"
+                            writer.println("MESSAGE " + name + ":"
                             		+ "" + input);
                         }
                     	

@@ -1,6 +1,7 @@
 package chatserver;
 
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -9,7 +10,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -40,7 +43,8 @@ public class ChatClient {
     JFrame frame = new JFrame("Chatte.X");
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
-    // TODO: Add a list box
+    JList<String> clientList;
+    DefaultListModel<String> clientListModel;
 
     /**
      * Constructs the client by laying out the GUI and registering a
@@ -55,6 +59,9 @@ public class ChatClient {
         // Layout GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
+        clientListModel = new DefaultListModel<>();
+        clientList = new JList<>(clientListModel);
+        frame.getContentPane().add(new JScrollPane(clientList), BorderLayout.WEST);
         frame.getContentPane().add(textField, "North");
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
         frame.pack();
@@ -117,7 +124,6 @@ public class ChatClient {
 
         // Process all messages from server, according to the protocol.
         
-        // TODO: You may have to extend this protocol to achieve task 9 in the lab sheet
         while (true) {
             String line = in.readLine();
             if (line.startsWith("SUBMITNAME")) {
