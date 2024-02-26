@@ -11,6 +11,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 
@@ -53,7 +55,8 @@ public class ChatClient {
      * message from the server.
      */
     public ChatClient() {
-
+    	
+    	
         // Layout GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
@@ -64,7 +67,9 @@ public class ChatClient {
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
         frame.pack();
         
-        broadcastCheckbox = new JCheckBox("Send To All");
+        JCheckBox broadcastCheckbox = new JCheckBox("Send To All");
+        broadcastCheckbox.setSelected(true); 
+     
         frame.getContentPane().add(broadcastCheckbox, BorderLayout.SOUTH);
 
         // TODO: You may have to edit this event handler to handle point to point messaging,
@@ -78,10 +83,13 @@ public class ChatClient {
              */
         	public void actionPerformed(ActionEvent e) {
                 List<String> selectedClients = clientList.getSelectedValuesList();
+                
+                
+               
                 if (broadcastCheckbox.isSelected()) { // Check if broadcast is enabled
                     out.println(textField.getText()); // Broadcast message to all clients
                 } else {
-                    if (!selectedClients.isEmpty()) {
+                    if (!selectedClients.isEmpty()) { 
                         for (String client : selectedClients) {
                             out.println(client + ">>" + textField.getText()); // Send message to selected clients
                         }
@@ -90,7 +98,10 @@ public class ChatClient {
                     }
                 }
                 textField.setText("");
+             
+                
             }
+        	
         });
         
     }
