@@ -148,14 +148,13 @@ public class ChatServer {
                     }
                     
                     for(String n :names) {
-                    	//check >>
+                    	//check >> is there
                     	if(input.contains(">>")){
-                    		//takes value after >> from input
-                    		String check = input.substring(input.indexOf(">>")).trim();
+                    		//dividing string value to two seperate variables 
+                    		String reciver = input.split(">>")[0];
+                    		String recmsg = input.split(">>")[1];
                     		//comparison with names hashset
-                    		if(check.equals(n)) {
                     		
-                    		}
                     		
                     	}
                     	
