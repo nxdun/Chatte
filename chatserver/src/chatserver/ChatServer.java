@@ -33,7 +33,7 @@ public class ChatServer {
     /**
      * The port that the server listens on.
      */
-    private static final int PORT = 9002;
+    private static final int PORT = 9004;
 
     /**
      * The set of all names of clients in the chat room.  Maintained
@@ -103,6 +103,7 @@ public class ChatServer {
          * broadcasts them.
          */
         
+     //modified the run() method to call broadcastLoggedInClients() whenever a client joins or leaves 
         
         public void run() {
             try {
@@ -136,7 +137,7 @@ public class ChatServer {
                 // this client can receive broadcast messages.
                 out.println("NAMEACCEPTED");  //sent to other class
                 writers.add(out);
-                broadcastLoggedInClients();
+                broadcastLoggedInClients();// Broadcast updated client list
                 
                 // TODO: You may have to add some code here to broadcast all clients the new
                 // client's name for the task 9 on the lab sheet. 
@@ -196,7 +197,7 @@ public class ChatServer {
                     socket.close();
                 } catch (IOException e) {
                 }
-                broadcastLoggedInClients();
+                broadcastLoggedInClients();// Broadcast updated client list
             }
             
         }

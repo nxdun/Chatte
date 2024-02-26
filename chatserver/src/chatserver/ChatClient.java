@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
+import javax.swing.*;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -75,12 +77,18 @@ public class ChatClient {
              * the contents of the text field to the server.    Then clear
              * the text area in preparation for the next message.
              */
-            public void actionPerformed(ActionEvent e) {
-                out.println(textField.getText());
+        	public void actionPerformed(ActionEvent e) {
+                List<String> selectedClients = clientList.getSelectedValuesList();
+                if (!selectedClients.isEmpty()) {
+                    for (String client : selectedClients) {
+                        out.println(client + ">>" + textField.getText());
+                    }
+                } else {
+                    out.println(textField.getText());
+                }
                 textField.setText("");
             }
         });
-        
         
     }
 
@@ -115,7 +123,7 @@ public class ChatClient {
 
         // Make connection and initialize streams
         String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9002);
+        Socket socket = new Socket(serverAddress, 9004);
         //recived from server
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
@@ -152,8 +160,21 @@ public class ChatClient {
                 
             	}
             }
+            else if (line.startsWith("CLIENTLIST")) {
+                String[] clients = line.substring(11).split(",");
+                updateClientList(clients);
+            }
         }
     }
+        
+        private void updateClientList(String[] clientNames) {
+            SwingUtilities.invokeLater(() -> {
+                clientListModel.clear();
+                for (String clientName : clientNames) {
+                    clientListModel.addElement(clientName);
+                }
+            });
+        }
 
     /**
      * Runs the client as an application with a closeable frame.
