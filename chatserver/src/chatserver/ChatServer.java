@@ -33,7 +33,7 @@ public class ChatServer {
     /**
      * The port that the server listens on.
      */
-    private static final int PORT = 9004;
+    private static final int PORT = 9005;
 
     /**
      * The set of all names of clients in the chat room.  Maintained

@@ -41,6 +41,8 @@ public class ChatClient {
     JTextArea messageArea = new JTextArea(8, 40);
     JList<String> clientList;
     DefaultListModel<String> clientListModel;
+    
+    JCheckBox broadcastCheckbox; // Declare checkbox
 
     /**
      * Constructs the client by laying out the GUI and registering a
@@ -61,6 +63,9 @@ public class ChatClient {
         frame.getContentPane().add(textField, "North");
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
         frame.pack();
+        
+        broadcastCheckbox = new JCheckBox("Send To All");
+        frame.getContentPane().add(broadcastCheckbox, BorderLayout.SOUTH);
 
         // TODO: You may have to edit this event handler to handle point to point messaging,
         // where one client can send a message to a specific client. You can add some header to 
@@ -73,15 +78,16 @@ public class ChatClient {
              */
         	public void actionPerformed(ActionEvent e) {
                 List<String> selectedClients = clientList.getSelectedValuesList();
-               
-                if (!selectedClients.isEmpty()) {
-                	
-                    for (String client : selectedClients) {
-                    	//sends a message to selected clients
-                        out.println(client + ">>" + textField.getText());
-                    }
+                if (broadcastCheckbox.isSelected()) { // Check if broadcast is enabled
+                    out.println(textField.getText()); // Broadcast message to all clients
                 } else {
-                    out.println(textField.getText());
+                    if (!selectedClients.isEmpty()) {
+                        for (String client : selectedClients) {
+                            out.println(client + ">>" + textField.getText()); // Send message to selected clients
+                        }
+                    } else {
+                        out.println(textField.getText()); // Broadcast if no client selected
+                    }
                 }
                 textField.setText("");
             }
@@ -121,7 +127,7 @@ public class ChatClient {
         // Make connection and initialize streams
         String serverAddress = getServerAddress();
         //client and server must run on same socket 
-        Socket socket = new Socket(serverAddress, 9004);
+        Socket socket = new Socket(serverAddress, 9005);
         //recived from server
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
@@ -136,7 +142,7 @@ public class ChatClient {
             //handling events
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
-                frame.setName("Chatte.X  (" + Cname + ")");
+                frame.setTitle("Chatte.X  (" + Cname + ")");
             } else if (line.startsWith("NAMEACCEPTED")) {
                 textField.setEditable(true);
             } else if (line.startsWith("MESSAGE")) {
