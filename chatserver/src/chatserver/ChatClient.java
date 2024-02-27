@@ -32,6 +32,8 @@ import javax.swing.event.ListSelectionListener;
  * line beginning with "MESSAGE " then all characters following
  * this string should be displayed in its message area.
  */
+
+
 public class ChatClient {
 	
 	static String Cname = "Unknown";
@@ -84,7 +86,7 @@ public class ChatClient {
         	public void actionPerformed(ActionEvent e) {
                 List<String> selectedClients = clientList.getSelectedValuesList();
                 
-                
+               
                
                 if (broadcastCheckbox.isSelected()) { // Check if broadcast is enabled
                     out.println(textField.getText()); // Broadcast message to all clients
@@ -173,7 +175,7 @@ public class ChatClient {
             	if(Cname.equals(mSender)|| Cname.equals(mReceiver)) {
             	
             		
-                messageArea.append("(private) FROM:" +mSender+ " TO:"+mReceiver+ "   : "+ recivedMessage + "\n");
+                messageArea.append("(private) FROM:" + mReceiver+ " TO:"+ mSender+ "   : "+ recivedMessage + "\n");
                 
             	}
             }
@@ -181,6 +183,7 @@ public class ChatClient {
             	
             	//takes all data after clientlist^
                 String[] clients = line.substring(11).split(",");
+                
                 //set all recived data
                 updateClientList(clients);
             }
