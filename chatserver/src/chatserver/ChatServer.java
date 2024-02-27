@@ -205,6 +205,7 @@ public class ChatServer {
             
         }
      // Broadcast the list of logged-in clients to all clients
+     //so it can displayed in every clients
         private synchronized void broadcastLoggedInClients() {
             StringBuilder clientListMessage = new StringBuilder();
             clientListMessage.append("CLIENTLIST ");

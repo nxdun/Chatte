@@ -2,6 +2,7 @@ package chatserver;
 
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -59,20 +60,36 @@ public class ChatClient {
     public ChatClient() {
     	
     	
-        // Layout GUI
+    	// Layout GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
         clientListModel = new DefaultListModel<>();
         clientList = new JList<>(clientListModel);
-        frame.getContentPane().add(new JScrollPane(clientList), BorderLayout.WEST);
-        frame.getContentPane().add(textField, "North");
-        frame.getContentPane().add(new JScrollPane(messageArea), "Center");
-        frame.pack();
-        
+        frame.getContentPane().setLayout(new BorderLayout());
+
+        // Create a panel to hold the text field and checkboxes
+        JPanel textFieldPanel = new JPanel(new BorderLayout());
+        textFieldPanel.add(textField, BorderLayout.CENTER);
+
+        // Create a panel for checkboxes
+        JPanel checkboxPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+
+        // Create two checkboxes
         JCheckBox broadcastCheckbox = new JCheckBox("Send To All");
-        broadcastCheckbox.setSelected(true); 
-     
-        frame.getContentPane().add(broadcastCheckbox, BorderLayout.SOUTH);
+        broadcastCheckbox.setSelected(true);
+   
+        // Add both checkboxes to the panel
+        checkboxPanel.add(broadcastCheckbox);
+
+        // Add checkboxPanel to textFieldPanel
+        textFieldPanel.add(checkboxPanel, BorderLayout.EAST);
+
+        // Add textFieldPanel to frame
+        frame.getContentPane().add(new JScrollPane(clientList), BorderLayout.WEST);
+        frame.getContentPane().add(textFieldPanel, BorderLayout.NORTH);
+        frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER);
+        frame.pack();
+
 
         // TODO: You may have to edit this event handler to handle point to point messaging,
         // where one client can send a message to a specific client. You can add some header to 
@@ -106,6 +123,7 @@ public class ChatClient {
         });
         
     }
+    
 
     /**
      * Prompt for and return the address of the server.
