@@ -140,7 +140,9 @@ public class ChatServer {
                 broadcastLoggedInClients();// Broadcast updated client list
                 
                 //sends a welcome message
-                out.println("MESSAGE ...Hi !! " + name + " welcome to our chat server...");
+                for (PrintWriter writer : writers) {
+                	writer.println("MESSAGE ...Hi !! " + name + " welcome to our chat server...");
+                }
                 
    
                 // Accept messages from this client and broadcast them.
@@ -184,6 +186,7 @@ public class ChatServer {
             }// TODO: Handle the SocketException here to handle a client closing the socket
             catch (IOException e) {
                 System.out.println(e);
+                out.println("MESSAGE someone leaved from the server");
             } finally {
                 // This client is going down!  Remove its name and its print
                 // writer from the sets, and close its socket.
