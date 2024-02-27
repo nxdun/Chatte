@@ -85,8 +85,7 @@ public class ChatClient {
              */
         	public void actionPerformed(ActionEvent e) {
                 List<String> selectedClients = clientList.getSelectedValuesList();
-                
-               
+         
                
                 if (broadcastCheckbox.isSelected()) { // Check if broadcast is enabled
                     out.println(textField.getText()); // Broadcast message to all clients
@@ -174,8 +173,12 @@ public class ChatClient {
                 //sender and reciver can only see pm
             	if(Cname.equals(mSender)|| Cname.equals(mReceiver)) {
             	
-            		
-                messageArea.append("(private) FROM:" + mReceiver+ " TO:"+ mSender+ "   : "+ recivedMessage + "\n");
+            		if(mSender.equals(mReceiver)) {
+            			messageArea.append("You sent yourself :? ");
+            		}else {
+            			messageArea.append("(private) FROM: " +mReceiver+ " TO: "+ mSender+ "   :   "+ recivedMessage + "\n");
+            		}
+                
                 
             	}
             }

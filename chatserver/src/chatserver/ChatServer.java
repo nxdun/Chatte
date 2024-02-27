@@ -139,10 +139,10 @@ public class ChatServer {
                 writers.add(out);
                 broadcastLoggedInClients();// Broadcast updated client list
                 
-                // TODO: You may have to add some code here to broadcast all clients the new
-                // client's name for the task 9 on the lab sheet. 
-
+                //sends a welcome message
+                out.println("MESSAGE ...Hi !! " + name + " welcome to our chat server...");
                 
+   
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.
                 while (true) {
