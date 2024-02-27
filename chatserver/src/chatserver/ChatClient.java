@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.*; //  used to create a list, which can be customized to select multiple list items
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 

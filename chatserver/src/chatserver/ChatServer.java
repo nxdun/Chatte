@@ -186,12 +186,14 @@ public class ChatServer {
             }// TODO: Handle the SocketException here to handle a client closing the socket
             catch (IOException e) {
                 System.out.println(e);
-                out.println("MESSAGE someone leaved from the server");
             } finally {
                 // This client is going down!  Remove its name and its print
                 // writer from the sets, and close its socket.
                 if (name != null) {
-                	remName(name);
+                	remName(name);// Remove the name of the leaving client
+                	for (PrintWriter writer : writers) {
+                        writer.println("MESSAGE " + name + " left the chat."); // Notify all clients
+                    }
                 }
                 if (out != null) {
                     writers.remove(out);
