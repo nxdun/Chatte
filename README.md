@@ -49,7 +49,10 @@ Coming Soon!
 
 ## Roadmap
 
-Current [Im] a baby
+- [x] add private messaging
+- [x] add currently online client display
+- [x] add welcome message
+- [ ] add a function to ignore users as user wishes
 
 ## Contributing
 
