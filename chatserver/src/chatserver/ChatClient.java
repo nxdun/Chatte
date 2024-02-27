@@ -32,6 +32,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class ChatClient {
 
+	//this string for displaying names
 	static String Cname = "Unknown";
 
 	BufferedReader in;
@@ -207,6 +208,11 @@ public class ChatClient {
 
 	// checkboxes renders by bypassing previous method
 	class ClientListCellRenderer extends JCheckBox implements ListCellRenderer<String> {
+		/**
+		 * automatically added serial vuid
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public ClientListCellRenderer() {
 			setOpaque(true);
 		}
