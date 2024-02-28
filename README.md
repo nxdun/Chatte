@@ -21,7 +21,7 @@
 
 ## About The Project
 
-![Screen Shot](images/screenshot.png)
+![Screen Shot](images/Screenshot.png)
 
 You know having a private chat to share quickie code is little time consuming
 Let me fix it
@@ -80,4 +80,4 @@ Distributed under the Unlicense License. See [UNLICENSE](https://github.com/) fo
 
 ## Acknowledgements
 
-![Contributors](https://img.shields.io/github/contributors/)
+![Static Badge](https://img.shields.io/badge/contributors-2-green)
