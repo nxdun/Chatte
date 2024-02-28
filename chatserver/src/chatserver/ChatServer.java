@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.HashSet;
 
 /**
+ * IT21800900
  * A multithreaded chat room server.  When a client connects the
  * server requests a screen name by sending the client the
  * text "SUBMITNAME", and keeps requesting a name until
@@ -205,7 +206,7 @@ public class ChatServer {
             
         }
      // Broadcast the list of logged-in clients to all clients
-     //so it can displayed in every clients
+     // so it can displayed in every clients
         private synchronized void broadcastLoggedInClients() {
             StringBuilder clientListMessage = new StringBuilder();
             clientListMessage.append("CLIENTLIST ");

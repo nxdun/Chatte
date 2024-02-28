@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
+ * IT21800900
  * A simple Swing-based client for the chat server. Graphically it is a frame
  * with a text field for entering messages and a textarea to see the whole
  * dialog.
@@ -85,12 +86,7 @@ public class ChatClient {
 		frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER);
 		frame.pack();
 
-		// TODO: You may have to edit this event handler to handle point to point
-		// messaging,
-		// where one client can send a message to a specific client. You can add some
-		// header to
-		// the message to identify the recipient. You can get the receipient name from
-		// the listbox.
+		
 		textField.addActionListener(new ActionListener() {
 			/**
 			 * Responds to pressing the enter key in the textfield by sending the contents
@@ -231,6 +227,7 @@ public class ChatClient {
 
 	/**
 	 * Runs the client as an application with a closeable frame.
+	 * this is main function
 	 */
 	public static void main(String[] args) throws Exception {
 		ChatClient client = new ChatClient();
