@@ -31,6 +31,7 @@ Let me fix it
 Whilst I was the main developer of this project, this project couldn't of even started without the help of these open source projects, special thanks to:
 
 - [Java](https://www.java.com/)
+- [Eclipse EE](https://www.eclipse.org/)
 
 
 
@@ -41,7 +42,9 @@ java version that support socket programming(Near Latest one)
 
 ### Installation
 
-Coming Soon!
+compile and run java files
+1 ChatServer
+* ChatClients
 
 ## Usage
 
@@ -52,7 +55,7 @@ Coming Soon!
 - [x] add private messaging
 - [x] add currently online client display
 - [x] add welcome message
-- [ ] add a function to ignore users as user wishes
+- [x] add a function to ignore users as user wishes
 
 ## Contributing
 
